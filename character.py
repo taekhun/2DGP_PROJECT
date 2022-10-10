@@ -1,8 +1,8 @@
 from pico2d import *
 open_canvas()
-idle_character = load_image('idle_character.png')
-move_character = load_image('run_character.png')
-i = 0
+character = load_image('character.png')
+
+i = 13
 
 def handle_events():
     global running
@@ -20,7 +20,7 @@ def handle_events():
                 i = 5
             elif event.key == SDLK_LEFT:
                 lr_dir -= 1
-                i = 2
+                i = 1
             elif event.key == SDLK_UP:
                 ud_dir += 1
                 i = 7
@@ -32,12 +32,16 @@ def handle_events():
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 lr_dir -= 1
+                i = 13
             elif event.key == SDLK_LEFT:
                 lr_dir += 1
+                i = 9
             elif event.key == SDLK_UP:
                 ud_dir -= 1
+                i = 15
             elif event.key == SDLK_DOWN:
                 ud_dir += 1
+                i = 11
 
 running = True
 x = 800 // 2
@@ -48,7 +52,7 @@ ud_dir = 0  # 상하
 
 while running:
     clear_canvas()
-    move_character.clip_draw(frame * 32, 32 * i, 32, 32, x, y)
+    character.clip_draw(frame * 32, 32 * i, 32, 32, x, y)
     update_canvas()
     handle_events()
     frame = (frame + 1) % 8
