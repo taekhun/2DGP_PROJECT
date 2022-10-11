@@ -6,6 +6,8 @@ i = 13
 right = False
 up = False
 down = False
+left = False
+
 
 def handle_events():
     global running
@@ -16,6 +18,8 @@ def handle_events():
     global right
     global up
     global down
+    global left
+
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -32,13 +36,19 @@ def handle_events():
                 right = True
             elif event.key == SDLK_LEFT:
                 lr_dir -= 1
-                i = 1
+                if not up:
+                    i = 1
+                if up:
+                    i = 0
+                left = True
             elif event.key == SDLK_UP:
                 ud_dir += 1
-                if not right:
+                if not right and not left:
                     i = 7
-                elif right:
+                if right:
                     i = 6
+                if left:
+                    i = 0
                 up = True
             elif event.key == SDLK_DOWN:
                 ud_dir -= 1
@@ -62,11 +72,17 @@ def handle_events():
                 right = False
             elif event.key == SDLK_LEFT:
                 lr_dir += 1
-                i = 9
+                if up:
+                    i = 7
+                else:
+                    i = 9
+                left = False
             elif event.key == SDLK_UP:
                 ud_dir -= 1
                 if right:
                     i = 5
+                elif left:
+                    i = 1
                 else:
                     i = 15
                 up = False
