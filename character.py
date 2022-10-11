@@ -3,6 +3,8 @@ open_canvas()
 character = load_image('character.png')
 
 i = 13
+right = False
+up = False
 
 def handle_events():
     global running
@@ -10,6 +12,8 @@ def handle_events():
     global lr_dir
     global ud_dir
     global i
+    global right
+    global up
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -17,31 +21,49 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
                 lr_dir += 1
-                i = 5
+                if not up:
+                    i = 5
+                elif up:
+                    i = 6
+                right = True
             elif event.key == SDLK_LEFT:
                 lr_dir -= 1
                 i = 1
             elif event.key == SDLK_UP:
                 ud_dir += 1
-                i = 7
+                if not right:
+                    i = 7
+                elif right:
+                    i = 6
+                up = True
             elif event.key == SDLK_DOWN:
                 ud_dir -= 1
                 i = 3
             elif event.key == SDLK_ESCAPE:
                 running = False
+
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 lr_dir -= 1
-                i = 13
+                if up:
+                    i = 7
+                else:
+                    i = 13
+                right = False
             elif event.key == SDLK_LEFT:
                 lr_dir += 1
                 i = 9
             elif event.key == SDLK_UP:
                 ud_dir -= 1
-                i = 15
+                if right:
+                    i = 5
+                else:
+                    i = 15
+                up = False
             elif event.key == SDLK_DOWN:
                 ud_dir += 1
                 i = 11
+
 
 running = True
 x = 800 // 2
@@ -56,8 +78,8 @@ while running:
     update_canvas()
     handle_events()
     frame = (frame + 1) % 8
-    x += lr_dir * 5
-    y += ud_dir * 5
+    x += lr_dir * 1
+    y += ud_dir * 1
     delay(0.01)
 
 close_canvas()
