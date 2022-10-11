@@ -36,10 +36,12 @@ def handle_events():
                 right = True
             elif event.key == SDLK_LEFT:
                 lr_dir -= 1
-                if not up:
+                if not up and not down:
                     i = 1
                 if up:
                     i = 0
+                if down:
+                    i = 2
                 left = True
             elif event.key == SDLK_UP:
                 ud_dir += 1
@@ -52,10 +54,12 @@ def handle_events():
                 up = True
             elif event.key == SDLK_DOWN:
                 ud_dir -= 1
-                if not right:
+                if not right and not left:
                     i = 3
                 elif right:
                     i = 4
+                elif left:
+                    i = 2
                 down = True
             elif event.key == SDLK_ESCAPE:
                 running = False
@@ -74,6 +78,8 @@ def handle_events():
                 lr_dir += 1
                 if up:
                     i = 7
+                elif down:
+                    i = 3
                 else:
                     i = 9
                 left = False
@@ -90,6 +96,8 @@ def handle_events():
                 ud_dir += 1
                 if right:
                     i = 5
+                elif left:
+                    i = 1
                 else:
                     i = 11
                 down = False
