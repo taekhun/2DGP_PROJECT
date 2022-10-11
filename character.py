@@ -5,6 +5,7 @@ character = load_image('character.png')
 i = 13
 right = False
 up = False
+down = False
 
 def handle_events():
     global running
@@ -14,6 +15,7 @@ def handle_events():
     global i
     global right
     global up
+    global down
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -21,10 +23,12 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_RIGHT:
                 lr_dir += 1
-                if not up:
+                if not up and not down:
                     i = 5
-                elif up:
+                if up:
                     i = 6
+                if down:
+                    i = 4
                 right = True
             elif event.key == SDLK_LEFT:
                 lr_dir -= 1
@@ -38,7 +42,11 @@ def handle_events():
                 up = True
             elif event.key == SDLK_DOWN:
                 ud_dir -= 1
-                i = 3
+                if not right:
+                    i = 3
+                elif right:
+                    i = 4
+                down = True
             elif event.key == SDLK_ESCAPE:
                 running = False
 
@@ -47,6 +55,8 @@ def handle_events():
                 lr_dir -= 1
                 if up:
                     i = 7
+                elif down:
+                    i = 3
                 else:
                     i = 13
                 right = False
@@ -62,7 +72,11 @@ def handle_events():
                 up = False
             elif event.key == SDLK_DOWN:
                 ud_dir += 1
-                i = 11
+                if right:
+                    i = 5
+                else:
+                    i = 11
+                down = False
 
 
 running = True
