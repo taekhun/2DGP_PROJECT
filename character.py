@@ -1,6 +1,7 @@
 from pico2d import *
 open_canvas()
 character = load_image('character.png')
+stage_1 = load_image('stage1.png')
 
 i = 13
 right = False
@@ -112,13 +113,14 @@ ud_dir = 0  # 상하
 
 while running:
     clear_canvas()
+    stage_1.draw(400, 300)
     character.clip_draw(frame * 32, 32 * i, 32, 32, x, y)
     update_canvas()
     handle_events()
     frame = (frame + 1) % 8
     x += lr_dir * 1
     y += ud_dir * 1
-    delay(0.01)
+    delay(0.02)
 
 close_canvas()
 
