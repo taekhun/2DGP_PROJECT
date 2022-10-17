@@ -22,6 +22,8 @@ class Character:
         self.attacks_up = []
         self.attacks_down = []
         self.attacks_up_right = []
+        self.attacks_up_left = []
+
         self.attack_x = 0
         self.attack_y = 0
         self.attack_speed = 10
@@ -30,6 +32,7 @@ class Character:
         self.attack_up = False
         self.attack_down = False
         self.attack_up_right = False
+        self.attack_up_left = False
 
     def handle_events(self):
         events = get_events()
@@ -50,6 +53,8 @@ class Character:
                         self.attacks_down.append([self.attack_x, self.attack_y])
                     elif self.i == 6:
                         self.attacks_up_right.append([self.attack_x, self.attack_y])
+                    elif self.i == 0:
+                        self.attacks_up_left.append([self.attack_x, self.attack_y])
 
                 if event.key == SDLK_RIGHT:
                     self.lr_dir += 1
@@ -69,6 +74,7 @@ class Character:
                         self.i = 1
                     if self.up:
                         self.i = 0
+                        self.attack_up_left = True
                     if self.down:
                         self.i = 2
                     self.left = True
@@ -83,6 +89,7 @@ class Character:
                         self.attack_up_right = True
                     if self.left:
                         self.i = 0
+                        self.attack_up_left = True
                     self.up = True
                     self.attack_up = True
 
@@ -153,6 +160,9 @@ class Character:
         if self.attack_up_right:
             self.attacks_up_right = [[a[0] + 2 ** (1/2) / 2 * self.attack_speed,
                                       a[1] + 2 ** (1/2) / 2 * self.attack_speed] for a in self.attacks_up_right]
+        if self.attack_up_left:
+            self.attacks_up_left = [[a[0] - 2 ** (1/2) / 2 * self.attack_speed,
+                                      a[1] + 2 ** (1/2) / 2 * self.attack_speed] for a in self.attacks_up_left]
 
     def draw(self):
         self.image.clip_draw(self.frame * 32, 32 * self.i, 32, 32, self.x, self.y)
@@ -165,4 +175,6 @@ class Character:
         for self.attack_x, self.attack_y in self.attacks_down:
             self.attack_image.draw(self.attack_x, self.attack_y)
         for self.attack_x, self.attack_y in self.attacks_up_right:
+            self.attack_image.draw(self.attack_x, self.attack_y)
+        for self.attack_x, self.attack_y in self.attacks_up_left:
             self.attack_image.draw(self.attack_x, self.attack_y)
