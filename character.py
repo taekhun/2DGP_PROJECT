@@ -38,9 +38,9 @@ class Character:
         self.attack_down_left = False
         self.attack_down_right = False
 
-    def handle_events(self):
-        events = get_events()
-        for event in events:
+    def handle_event(self, event):
+        # events = get_events()
+        # for event in events:
             if event.type == SDL_QUIT:
                 self.running = False
             elif event.type == SDL_KEYDOWN:
@@ -159,8 +159,8 @@ class Character:
 
     def update(self):
         self.frame = (self.frame + 1) % 8
-        self.x += self.lr_dir * 1
-        self.y += self.ud_dir * 1
+        self.x += self.lr_dir * 2
+        self.y += self.ud_dir * 2
         if self.attack_right:
             self.attacks_right = [[a[0] + self.attack_speed, a[1]] for a in self.attacks_right]
         if self.attack_left:
@@ -183,6 +183,7 @@ class Character:
                                       a[1] - 2 ** (1/2) / 2 * self.attack_speed] for a in self.attacks_down_right]
 
     def draw(self):
+        delay(0.02)
         self.image.clip_draw(self.frame * 32, 32 * self.i, 32, 32, self.x, self.y)
         for self.attack_x, self.attack_y in self.attacks_right:
             self.attack_image.draw(self.attack_x, self.attack_y)
