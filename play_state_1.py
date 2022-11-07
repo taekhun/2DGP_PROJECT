@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import game_world
+import menu_state
 
 from stage import Stage
 from character_1 import Character
@@ -15,7 +16,7 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-            game_framework.quit()
+            game_framework.push_state(menu_state)
         else:
             character_1.handle_event(event)
 
