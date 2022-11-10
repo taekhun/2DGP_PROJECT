@@ -1,14 +1,18 @@
 from pico2d import *
+import time
+
 import game_framework
 import game_world
 import menu_state
 
 from stage import Stage
 from character_1 import Character
+from enemy import Enemy
 
 character_1 = None
 stage = None
-
+enemies = []
+i_flag = 0
 
 def handle_events():
     events = get_events()
@@ -26,20 +30,27 @@ def enter():
     global character_1, stage
     character_1 = Character()
     stage = Stage()
-    game_world.add_object(character_1, 1)
     game_world.add_object(stage, 0)
+    game_world.add_object(character_1, 1)
+    global enemies
+    game_world.add_objects(enemies, 1)
 
-
+def add_enemy():
+    enemy = Enemy()
+    game_world.add_object(enemy, 1)
 # 종료
 def exit():
-    global character_1, stage
-    del character_1
-    del stage
-
+    game_world.clear()
 
 def update():
+    global i_flag
     for game_object in game_world.all_objects():
         game_object.update()
+    i_flag += 1
+    if i_flag == 100:
+        add_enemy()
+        i_flag = 0
+
 
 
 def draw_world():

@@ -1,4 +1,6 @@
 from pico2d import *
+
+import game_framework
 import game_world
 from star import Star
 
@@ -18,6 +20,16 @@ key_event_table = {
     (SDL_KEYUP, SDLK_SPACE): SPACE
 }
 
+PIXEL_PER_METER = (10.0 / 0.3)
+RUN_SPEED_KMPH = 20.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0) / 60.0
+RUN_SPEED_MPS = RUN_SPEED_MPM / 60.0
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
+
 
 #2 : 상태의 정의
 class IDLE:
@@ -35,18 +47,18 @@ class IDLE:
 
     @staticmethod
     def do(self):
-        self.frame = (self.frame + 1) % 8
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
     @staticmethod
     def draw(self):
         if self.RL_face_dir == 1:
-            self.image.clip_draw(self.frame * 32, 32 * 13, 32, 32, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 32, 32 * 13, 32, 32, self.x, self.y)
         elif self.RL_face_dir == -1:
-            self.image.clip_draw(self.frame * 32, 32 * 9, 32, 32, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 32, 32 * 9, 32, 32, self.x, self.y)
         elif self.UD_face_dir == 1:
-            self.image.clip_draw(self.frame * 32, 32 * 15, 32, 32, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 32, 32 * 15, 32, 32, self.x, self.y)
         elif self.UD_face_dir == -1:
-            self.image.clip_draw(self.frame * 32, 32 * 11, 32, 32, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 32, 32 * 11, 32, 32, self.x, self.y)
 
 
 class RUN:
@@ -97,21 +109,21 @@ class RUN:
             self.fire_star()
 
     def do(self):
-        self.frame = (self.frame + 1) % 8
-        self.x += self.RL_dir
-        self.y += self.UD_dir
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        self.x += self.RL_dir * RUN_SPEED_PPS * game_framework.frame_time
+        self.y += self.UD_dir * RUN_SPEED_PPS * game_framework.frame_time
         self.x = clamp(0, self.x, 800)
         self.y = clamp(0, self.y, 600)
 
     def draw(self):
         if self.RL_dir == -1:
-            self.image.clip_draw(self.frame*32, 32 * 1, 32, 32, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 32, 32 * 1, 32, 32, self.x, self.y)
         elif self.RL_dir == 1:
-            self.image.clip_draw(self.frame*32, 32 * 4, 32, 32, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 32, 32 * 4, 32, 32, self.x, self.y)
         elif self.UD_dir == -1:
-            self.image.clip_draw(self.frame * 32, 32 * 3, 32, 32, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 32, 32 * 3, 32, 32, self.x, self.y)
         elif self.UD_dir == 1:
-            self.image.clip_draw(self.frame * 32, 32 * 7, 32, 32, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 32, 32 * 7, 32, 32, self.x, self.y)
 
 
 #3. 상태 변환 구현

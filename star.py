@@ -1,5 +1,12 @@
 from pico2d import *
 import game_world
+import game_framework
+
+PIXEL_PER_METER = (10.0 / 0.3)
+RUN_SPEED_KMPH = 40.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0) / 60.0
+RUN_SPEED_MPS = RUN_SPEED_MPM / 60.0
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
 
 class Star:
@@ -15,9 +22,9 @@ class Star:
 
     def update(self):
         if self.RL_direction == 1 or self.RL_direction == -1:
-            self.x += self.velocity
+            self.x += self.velocity * RUN_SPEED_PPS * game_framework.frame_time
         elif self.UD_direction == 1 or self.UD_direction == -1:
-            self.y += self.velocity
+            self.y += self.velocity * RUN_SPEED_PPS * game_framework.frame_time
         if self.x < 20 or self.x > 800 - 20 or self.y < 20 or self.y > 600 - 20:
             game_world.remove_object(self)
 
