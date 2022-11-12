@@ -32,25 +32,36 @@ def enter():
     stage = Stage()
     game_world.add_object(stage, 0)
     game_world.add_object(character_1, 1)
-    global enemies
-    game_world.add_objects(enemies, 1)
+
 
 def add_enemy():
+    global enemy
     enemy = Enemy()
+    # enemies.append(Enemy())
     game_world.add_object(enemy, 1)
+    game_world.add_collision_group(character_1, enemy, 'character:enemies')
+    game_world.add_collision_group(character_1.fire_star(), enemy, 'star:enemies')
+
+
 # 종료
 def exit():
     game_world.clear()
 
 def update():
-    global i_flag
     for game_object in game_world.all_objects():
         game_object.update()
+
+    for a, b, group in game_world.all_collision_pairs():
+        if colide(a, b):
+            print('COLLISION by ', group)
+            a.handle_collision(b, group)
+            b.handle_collision(a, group)
+
+    global i_flag
     i_flag += 1
     if i_flag == 100:
         add_enemy()
         i_flag = 0
-
 
 
 def draw_world():
@@ -71,6 +82,16 @@ def pause():
 def resume():
     pass
 
+def colide(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_b, bottom_b, right_b, top_b = b.get_bb()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if top_a < bottom_b: return False
+    if bottom_a > top_b: return False
+
+    return True
 
 def test_self():
     import play_state_1
