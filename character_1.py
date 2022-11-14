@@ -124,6 +124,15 @@ class RUN:
         self.y += self.UD_dir * RUN_SPEED_PPS * game_framework.frame_time
         self.x = clamp(0 + 10, self.x, 800 - 10)
         self.y = clamp(0 + 15, self.y, 600 - 15)
+        if 520 < self.y < 600:
+            self.x = clamp(365 + 10, self.x, 440 - 10)
+        if 0 < self.x < 365 - 2:
+            self.y = clamp(0 + 45, self.y, 520 - 15)
+        if 0 < self.y < 40:
+            self.x = clamp(365 + 10, self.x, 440 - 10)
+        if 440 < self.x < 800:
+            self.y = clamp(0 + 45, self.y, 520 - 15)
+
 
     def draw(self):
         if self.hit_flag >= 1:
