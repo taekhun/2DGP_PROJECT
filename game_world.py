@@ -1,7 +1,7 @@
 # game world
 # layer 0: Background Objects
 # layer 1: Foreground Objects
-objects = [[], []]
+objects = [[], [], []]
 #   'boy:ball' : [ (boy), (ball1, ball2, ball3, ...)]
 collision_group = dict()
 

@@ -6,6 +6,7 @@ import game_world
 import menu_state
 
 from stage import Stage
+from stage_2 import Stage_2
 from character_1 import Character
 from enemy import Enemy
 
@@ -27,11 +28,13 @@ def handle_events():
 
 # 초기화
 def enter():
-    global character_1, stage
+    global character_1, stage, stage_2
     character_1 = Character()
     stage = Stage()
+    stage_2 = Stage_2()
     game_world.add_object(stage, 0)
     game_world.add_object(character_1, 1)
+    game_world.add_object(stage_2, 2)
 
 
 def add_enemy():

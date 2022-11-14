@@ -153,7 +153,6 @@ next_state = {
     RUN:   {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, UU: IDLE, DU: IDLE, UD: IDLE, DD: IDLE, SPACE: RUN}
 }
 
-
 class Character:
     def __init__(self):
         self.x, self.y = 800 // 2, 90
