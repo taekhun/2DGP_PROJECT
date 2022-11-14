@@ -1,7 +1,7 @@
 from pico2d import *
 import game_framework
 import game_world
-import play_state_1
+import play_state
 import title_state
 
 image = None
@@ -28,7 +28,7 @@ def handle_events():
 
 def draw():
     clear_canvas()
-    play_state_1.draw_world()
+    play_state.draw_world()
     image.draw(400, 300)
     update_canvas()
 

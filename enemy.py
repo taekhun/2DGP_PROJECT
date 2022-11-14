@@ -32,7 +32,7 @@ class Enemy:
 
     def draw(self):
         self.image.clip_draw(int(self.frame) * 32, 32 * 3, 32, 32, self.x, self.y)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 15, self.y - 15, self.x + 10, self.y + 15

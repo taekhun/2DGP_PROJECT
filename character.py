@@ -1,202 +1,256 @@
-# from pico2d import *
-#
-#
-# class Character:
-#     def __init__(self):
-#         self.running = True
-#         self.i = 13
-#         self.right = False
-#         self.up = False
-#         self.down = False
-#         self.left = False
-#         self.frame = 0
-#         self.lr_dir = 0  # 좌우
-#         self.ud_dir = 0  # 상하
-#         self.x, self.y = 400, 32
-#         self.image = load_image('character.png')
-#
-#         self.attack_image = load_image('attack.png')
-#         self.attacks_right = []
-#         self.attacks_left = []
-#         self.attacks_up = []
-#         self.attacks_down = []
-#         self.attacks_up_right = []
-#         self.attacks_up_left = []
-#         self.attacks_down_left = []
-#         self.attacks_down_right = []
-#
-#         self.attack_x = 0
-#         self.attack_y = 0
-#         self.attack_speed = 10
-#         self.attack_right = False
-#         self.attack_left = False
-#         self.attack_up = False
-#         self.attack_down = False
-#         self.attack_up_right = False
-#         self.attack_up_left = False
-#         self.attack_down_left = False
-#         self.attack_down_right = False
-#
-#     def handle_event(self, event):
-#         # events = get_events()
-#         # for event in events:
-#             if event.type == SDL_QUIT:
-#                 self.running = False
-#             elif event.type == SDL_KEYDOWN:
-#                 if event.key == SDLK_SPACE:
-#                     self.attack_x = self.x
-#                     self.attack_y = self.y
-#                     if self.i == 5 or self.i == 13:
-#                         self.attacks_right.append([self.attack_x, self.attack_y])
-#                     elif self.i == 1 or self.i == 9:
-#                         self.attacks_left.append([self.attack_x, self.attack_y])
-#                     elif self.i == 7 or self.i == 15:
-#                         self.attacks_up.append([self.attack_x, self.attack_y])
-#                     elif self.i == 3 or self.i == 11:
-#                         self.attacks_down.append([self.attack_x, self.attack_y])
-#                     elif self.i == 6:
-#                         self.attacks_up_right.append([self.attack_x, self.attack_y])
-#                     elif self.i == 0:
-#                         self.attacks_up_left.append([self.attack_x, self.attack_y])
-#                     elif self.i == 2:
-#                         self.attacks_down_left.append([self.attack_x, self.attack_y])
-#                     elif self.i == 4:
-#                         self.attacks_down_right.append([self.attack_x, self.attack_y])
-#
-#                 if event.key == SDLK_RIGHT:
-#                     self.lr_dir += 1
-#                     if not self.up and not self.down:
-#                         self.i = 5
-#                     if self.up:
-#                         self.i = 6
-#                         self.attack_up_right = True
-#                     if self.down:
-#                         self.i = 4
-#                         self.attack_down_right = True
-#                     self.right = True
-#                     self.attack_right = True
-#
-#                 elif event.key == SDLK_LEFT:
-#                     self.lr_dir -= 1
-#                     if not self.up and not self.down:
-#                         self.i = 1
-#                     if self.up:
-#                         self.i = 0
-#                         self.attack_up_left = True
-#                     if self.down:
-#                         self.i = 2
-#                         self.attack_down_left = True
-#                     self.left = True
-#                     self.attack_left = True
-#
-#                 elif event.key == SDLK_UP:
-#                     self.ud_dir += 1
-#                     if not self.right and not self.left:
-#                         self.i = 7
-#                     if self.right:
-#                         self.i = 6
-#                         self.attack_up_right = True
-#                     if self.left:
-#                         self.i = 0
-#                         self.attack_up_left = True
-#                     self.up = True
-#                     self.attack_up = True
-#
-#                 elif event.key == SDLK_DOWN:
-#                     self.ud_dir -= 1
-#                     if not self.right and not self.left:
-#                         self.i = 3
-#                     elif self.right:
-#                         self.i = 4
-#                         self.attack_down_right = True
-#                     elif self.left:
-#                         self.i = 2
-#                         self.attack_down_left = True
-#                     self.down = True
-#                     self.attack_down = True
-#
-#                 elif event.key == SDLK_ESCAPE:
-#                     self.running = False
-#
-#             elif event.type == SDL_KEYUP:
-#                 if event.key == SDLK_RIGHT:
-#                     self.lr_dir -= 1
-#                     if self.up:
-#                         self.i = 7
-#                     elif self.down:
-#                         self.i = 3
-#                     else:
-#                         self.i = 13
-#                     self.right = False
-#                 elif event.key == SDLK_LEFT:
-#                     self.lr_dir += 1
-#                     if self.up:
-#                         self.i = 7
-#                     elif self.down:
-#                         self.i = 3
-#                     else:
-#                         self.i = 9
-#                     self.left = False
-#                 elif event.key == SDLK_UP:
-#                     self.ud_dir -= 1
-#                     if self.right:
-#                         self.i = 5
-#                     elif self.left:
-#                         self.i = 1
-#                     else:
-#                         self.i = 15
-#                     self.up = False
-#                 elif event.key == SDLK_DOWN:
-#                     self.ud_dir += 1
-#                     if self.right:
-#                         self.i = 5
-#                     elif self.left:
-#                         self.i = 1
-#                     else:
-#                         self.i = 11
-#                     self.down = False
-#
-#     def update(self):
-#         self.frame = (self.frame + 1) % 8
-#         self.x += self.lr_dir * 2
-#         self.y += self.ud_dir * 2
-#         if self.attack_right:
-#             self.attacks_right = [[a[0] + self.attack_speed, a[1]] for a in self.attacks_right]
-#         if self.attack_left:
-#             self.attacks_left = [[a[0] - self.attack_speed, a[1]] for a in self.attacks_left]
-#         if self.attack_up:
-#             self.attacks_up = [[a[0], a[1] + self.attack_speed] for a in self.attacks_up]
-#         if self.attack_down:
-#             self.attacks_down = [[a[0], a[1] - self.attack_speed] for a in self.attacks_down]
-#         if self.attack_up_right:
-#             self.attacks_up_right = [[a[0] + 2 ** (1/2) / 2 * self.attack_speed,
-#                                       a[1] + 2 ** (1/2) / 2 * self.attack_speed] for a in self.attacks_up_right]
-#         if self.attack_up_left:
-#             self.attacks_up_left = [[a[0] - 2 ** (1/2) / 2 * self.attack_speed,
-#                                       a[1] + 2 ** (1/2) / 2 * self.attack_speed] for a in self.attacks_up_left]
-#         if self.attack_down_left:
-#             self.attacks_down_left = [[a[0] - 2 ** (1/2) / 2 * self.attack_speed,
-#                                       a[1] - 2 ** (1/2) / 2 * self.attack_speed] for a in self.attacks_down_left]
-#         if self.attack_down_right:
-#             self.attacks_down_right = [[a[0] + 2 ** (1/2) / 2 * self.attack_speed,
-#                                       a[1] - 2 ** (1/2) / 2 * self.attack_speed] for a in self.attacks_down_right]
-#
-#     def draw(self):
-#         delay(0.02)
-#         self.image.clip_draw(self.frame * 32, 32 * self.i, 32, 32, self.x, self.y)
-#         for self.attack_x, self.attack_y in self.attacks_right:
-#             self.attack_image.draw(self.attack_x, self.attack_y)
-#         for self.attack_x, self.attack_y in self.attacks_left:
-#             self.attack_image.draw(self.attack_x, self.attack_y)
-#         for self.attack_x, self.attack_y in self.attacks_up:
-#             self.attack_image.draw(self.attack_x, self.attack_y)
-#         for self.attack_x, self.attack_y in self.attacks_down:
-#             self.attack_image.draw(self.attack_x, self.attack_y)
-#         for self.attack_x, self.attack_y in self.attacks_up_right:
-#             self.attack_image.draw(self.attack_x, self.attack_y)
-#         for self.attack_x, self.attack_y in self.attacks_up_left:
-#             self.attack_image.draw(self.attack_x, self.attack_y)
-#         for self.attack_x, self.attack_y in self.attacks_down_left:
-#             self.attack_image.draw(self.attack_x, self.attack_y)
-#         for self.attack_x, self.attack_y in self.attacks_down_right:
-#             self.attack_image.draw(self.attack_x, self.attack_y)
+from pico2d import *
+
+import game_framework
+import game_world
+from star import Star
+from enemy import Enemy
+import gameover_state
+
+#1 : 이벤트 정의
+RD, LD, UD, DD, RU, LU, UU, DU, SPACE = range(9)
+event_name = ['RD', 'LD', 'RU', 'LU', 'RU', 'LU', 'UU', 'DU', 'SPACE']
+
+key_event_table = {
+    (SDL_KEYDOWN, SDLK_RIGHT): RD,
+    (SDL_KEYDOWN, SDLK_LEFT): LD,
+    (SDL_KEYDOWN, SDLK_UP): UD,
+    (SDL_KEYDOWN, SDLK_DOWN): DD,
+    (SDL_KEYUP, SDLK_RIGHT): RU,
+    (SDL_KEYUP, SDLK_LEFT): LU,
+    (SDL_KEYUP, SDLK_UP): UU,
+    (SDL_KEYUP, SDLK_DOWN): DU,
+    (SDL_KEYUP, SDLK_z): SPACE
+}
+
+PIXEL_PER_METER = (10.0 / 0.3)
+RUN_SPEED_KMPH = 20.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0) / 60.0
+RUN_SPEED_MPS = RUN_SPEED_MPM / 60.0
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
+
+#2 : 상태의 정의
+class IDLE:
+    @staticmethod
+    def enter(self, event):
+        print('ENTER IDLE')
+        self.RL_dir = 0
+        self.UD_dir = 0
+
+    @staticmethod
+    def exit(self, event):
+        print('EXIT IDLE')
+        if SPACE == event:
+            self.fire_star()
+
+    @staticmethod
+    def do(self):
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+
+    @staticmethod
+    def draw(self):
+        if self.hit_flag >= 1:
+            if self.RL_face_dir == 1:
+                self.image.clip_draw(int(self.frame) * 32, 32 * 13, 32, 32, self.x, self.y)
+            elif self.RL_face_dir == -1:
+                self.image.clip_draw(int(self.frame) * 32, 32 * 9, 32, 32, self.x, self.y)
+            elif self.UD_face_dir == 1:
+                self.image.clip_draw(int(self.frame) * 32, 32 * 15, 32, 32, self.x, self.y)
+            elif self.UD_face_dir == -1:
+                self.image.clip_draw(int(self.frame) * 32, 32 * 11, 32, 32, self.x, self.y)
+        else:
+            if self.RL_face_dir == 1:
+                self.hit_image.clip_draw(int(self.frame) * 32, 32 * 13, 32, 32, self.x, self.y)
+            elif self.RL_face_dir == -1:
+                self.hit_image.clip_draw(int(self.frame) * 32, 32 * 9, 32, 32, self.x, self.y)
+            elif self.UD_face_dir == 1:
+                self.hit_image.clip_draw(int(self.frame) * 32, 32 * 15, 32, 32, self.x, self.y)
+            elif self.UD_face_dir == -1:
+                self.hit_image.clip_draw(int(self.frame) * 32, 32 * 11, 32, 32, self.x, self.y)
+
+class RUN:
+    def enter(self, event):
+        print('ENTER RUN')
+        if event == RD:
+            self.RL_dir += 1
+        elif event == LD:
+            self.RL_dir -= 1
+        elif event == UD:
+            self.UD_dir += 1
+        elif event == DD:
+            self.UD_dir -= 1
+        elif event == RU:
+            if self.L_BOOL == True:
+                self.RL_dir -= 1
+            elif self.U_BOOL == True:
+                self.UD_dir += 1
+            elif self.D_BOOL == True:
+                self.UD_dir -= 1
+        elif event == LU:
+            if self.R_BOOL == True:
+                self.RL_dir += 1
+            elif self.U_BOOL == True:
+                self.UD_dir += 1
+            elif self.D_BOOL == True:
+                self.UD_dir -= 1
+        elif event == UU:
+            if self.D_BOOL == True:
+                self.UD_dir -= 1
+            elif self.R_BOOL == True:
+                self.RL_dir += 1
+            elif self.L_BOOL == True:
+                self.RL_dir -= 1
+        elif event == DU:
+            if self.U_BOOL == True:
+                self.UD_dir += 1
+            elif self.R_BOOL == True:
+                self.RL_dir += 1
+            elif self.L_BOOL == True:
+                self.RL_dir -= 1
+
+    def exit(self, event):
+        print('EXIT RUN')
+        self.RL_face_dir = self.RL_dir
+        self.UD_face_dir = self.UD_dir
+        if SPACE == event:
+            self.fire_star()
+
+    def do(self):
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        self.x += self.RL_dir * RUN_SPEED_PPS * game_framework.frame_time
+        self.y += self.UD_dir * RUN_SPEED_PPS * game_framework.frame_time
+        self.x = clamp(0 + 10, self.x, 800 - 10)
+        self.y = clamp(0 + 15, self.y, 600 - 15)
+        if 520 < self.y < 600:
+            self.x = clamp(365 + 10, self.x, 440 - 10)
+        if 0 < self.x < 365 - 2:
+            self.y = clamp(0 + 45, self.y, 520 - 15)
+        if 0 < self.y < 40:
+            self.x = clamp(365 + 10, self.x, 440 - 10)
+        if 440 < self.x < 800:
+            self.y = clamp(0 + 45, self.y, 520 - 15)
+
+
+    def draw(self):
+        if self.hit_flag >= 1:
+            if self.RL_dir == -1:
+                self.image.clip_draw(int(self.frame) * 32, 32 * 1, 32, 32, self.x, self.y)
+            elif self.RL_dir == 1:
+                self.image.clip_draw(int(self.frame) * 32, 32 * 4, 32, 32, self.x, self.y)
+            elif self.UD_dir == -1:
+                self.image.clip_draw(int(self.frame) * 32, 32 * 3, 32, 32, self.x, self.y)
+            elif self.UD_dir == 1:
+                self.image.clip_draw(int(self.frame) * 32, 32 * 7, 32, 32, self.x, self.y)
+        else:
+            if self.RL_dir == -1:
+                self.hit_image.clip_draw(int(self.frame) * 32, 32 * 1, 32, 32, self.x, self.y)
+            elif self.RL_dir == 1:
+                self.hit_image.clip_draw(int(self.frame) * 32, 32 * 4, 32, 32, self.x, self.y)
+            elif self.UD_dir == -1:
+                self.hit_image.clip_draw(int(self.frame) * 32, 32 * 3, 32, 32, self.x, self.y)
+            elif self.UD_dir == 1:
+                self.hit_image.clip_draw(int(self.frame) * 32, 32 * 7, 32, 32, self.x, self.y)
+
+
+
+#3. 상태 변환 구현
+next_state = {
+    IDLE:  {RU: RUN,  LU: RUN,  RD: RUN,  LD: RUN, UU: RUN, DU: RUN, UD: RUN, DD: RUN, SPACE: IDLE},
+    RUN:   {RU: IDLE, LU: IDLE, RD: IDLE, LD: IDLE, UU: IDLE, DU: IDLE, UD: IDLE, DD: IDLE, SPACE: RUN}
+}
+
+class Character:
+    def __init__(self):
+        self.x, self.y = 800 // 2, 90
+        self.frame = 0
+        self.RL_dir, self.UD_dir, self.RL_face_dir, self.UD_face_dir = 0, 0, 1, 1
+        self.U_BOOL, self.D_BOOL, self.R_BOOL, self.L_BOOL, = False, False, False, False
+        self.image = load_image('character.png')
+        self.hit_image = load_image('hit_character.png')
+        self.event_que = []
+        self.cur_state = IDLE
+        self.cur_state.enter(self, None)
+        self.enemy = Enemy()
+        self.font = load_font('ENCR10B.TTF', 16)
+        self.HP = 100
+        self.hit_flag = 1
+
+
+    def update(self):
+        self.cur_state.do(self)
+
+        self.hit_flag += game_framework.frame_time
+        if self.event_que:
+            event = self.event_que.pop()
+            self.cur_state.exit(self, event)
+            try:
+                self.cur_state = next_state[self.cur_state][event]
+            except KeyError:
+                print('ERROR:', self.cur_state.__name__, '  ', event_name[event])
+            self.cur_state.enter(self, event)
+
+            if event == RD:
+                self.R_BOOL = True
+                self.L_BOOL = False
+            elif event == LD:
+                self.L_BOOL = True
+                self.R_BOOL = False
+            elif event == UD:
+                self.U_BOOL = True
+                self.D_BOOL = False
+            elif event == DD:
+                self.D_BOOL = True
+                self.U_BOOL = False
+            elif event == RU:
+                self.L_BOOL = True
+                self.R_BOOL = False
+            elif event == LU:
+                self.R_BOOL = True
+                self.L_BOOL = False
+            elif event == UU:
+                self.D_BOOL = True
+                self.U_BOOL = False
+            elif event == DU:
+                self.U_BOOL = True
+                self.D_BOOL = False
+
+        if self.HP <= 0:
+            game_framework.push_state(gameover_state)
+
+    def draw(self):
+        self.cur_state.draw(self)
+        debug_print('PPPP')
+        debug_print(f'RL_Face Dir: {self.RL_face_dir}, UD_Face Dir: {self.UD_face_dir},'
+                    f'RL_Dir: {self.RL_dir}, UD_Dir: {self.UD_dir}')
+        # draw_rectangle(*self.get_bb())
+        self.font.draw(self.x - 50, self.y + 30, f'(HP: {self.HP:.2f})', (255, 0, 0))
+
+
+    def add_event(self, event):
+        self.event_que.insert(0, event)
+
+    def handle_event(self, event):
+        if (event.type, event.key) in key_event_table:
+            key_event = key_event_table[(event.type, event.key)]
+            self.add_event(key_event)
+
+    def fire_star(self):
+        print('FIRE STAR')
+        # 발사 시점에서 볼을 생성해줘야 된다.
+        star = Star(self.x, self.y, (self.RL_face_dir * 2 + self.UD_face_dir * 2) / 2)
+        star.get_direction(self.RL_face_dir, self.UD_face_dir)
+        game_world.add_object(star, 1)
+        return star
+
+    def get_bb(self):
+        return self.x - 13, self.y - 16, self.x + 10, self.y + 13
+
+    def handle_collision(self, other, group):
+        if group == 'character:enemies':
+            self.HP -= 0.01
+            if self.hit_flag >= 1:
+                self.hit_flag = 0
+            pass

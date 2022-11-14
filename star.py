@@ -19,7 +19,7 @@ class Star:
 
     def draw(self):
         self.image.draw(self.x, self.y)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def update(self):
         if self.RL_direction == 1 or self.RL_direction == -1:

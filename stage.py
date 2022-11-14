@@ -11,10 +11,10 @@ class Stage:
 
     def draw(self):
         self.image.draw(400, 300)
-        draw_rectangle(*self.get_bb_1())
-        draw_rectangle(*self.get_bb_2())
-        draw_rectangle(*self.get_bb_3())
-        draw_rectangle(*self.get_bb_4())
+        # draw_rectangle(*self.get_bb_1())
+        # draw_rectangle(*self.get_bb_2())
+        # draw_rectangle(*self.get_bb_3())
+        # draw_rectangle(*self.get_bb_4())
         # self.font.draw(100, 550, f'(Time: {get_time():.2f})', (255, 0, 0))
 
     def get_bb_1(self):
