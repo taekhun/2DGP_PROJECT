@@ -4,7 +4,7 @@ import game_framework
 import game_world
 from star import Star
 from enemy import Enemy
-import title_state
+import gameover_state
 
 #1 : 이벤트 정의
 RD, LD, UD, DD, RU, LU, UU, DU, SPACE = range(9)
@@ -210,7 +210,7 @@ class Character:
                 self.D_BOOL = False
 
         if self.HP <= 0:
-            game_framework.change_state(title_state)
+            game_framework.push_state(gameover_state)
 
     def draw(self):
         self.cur_state.draw(self)
