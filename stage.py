@@ -1,12 +1,16 @@
 from pico2d import *
 
+import game_framework
+
 
 class Stage:
     def __init__(self):
         self.image = load_image('stage_1.png')
-        # self.font = load_font('ENCR10B.TTF', 16)
+        self.timer = 100.0
+        self.font = load_font('ENCR10B.TTF', 16)
 
     def update(self):
+        self.timer -= game_framework.frame_time
         pass
 
     def draw(self):
@@ -15,7 +19,7 @@ class Stage:
         # draw_rectangle(*self.get_bb_2())
         # draw_rectangle(*self.get_bb_3())
         # draw_rectangle(*self.get_bb_4())
-        # self.font.draw(100, 550, f'(Time: {get_time():.2f})', (255, 0, 0))
+        self.font.draw(100, 550, f'(Time: {self.timer:.2f})', (255, 0, 0))
 
     def get_bb_1(self):
         return 0, 0, 365 - 2, 30
