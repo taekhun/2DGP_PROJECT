@@ -73,52 +73,96 @@ class WalkingState:
             character.y = clamp(0 + 45, character.y, 520 - 15)
 
     def draw(character):
-        if character.x_velocity > 0:
-            character.image.clip_draw(int(character.frame) * 32, 32 * 5, 32, 32, character.x, character.y)
-            character.RL_dir = 1
-            character.UD_dir = 0
-            if character.y_velocity > 0:
-                character.image.clip_draw(int(character.frame) * 32, 32 * 6, 32, 32, character.x, character.y)
-                character.UD_dir = 1
-            elif character.y_velocity < 0:
-                character.image.clip_draw(int(character.frame) * 32, 32 * 4, 32, 32, character.x, character.y)
-                character.UD_dir = -1
+        if character.hit_flag >= 1:
+            if character.x_velocity > 0:
+                character.image.clip_draw(int(character.frame) * 32, 32 * 5, 32, 32, character.x, character.y)
+                character.RL_dir = 1
+                character.UD_dir = 0
+                if character.y_velocity > 0:
+                    character.image.clip_draw(int(character.frame) * 32, 32 * 6, 32, 32, character.x, character.y)
+                    character.UD_dir = 1
+                elif character.y_velocity < 0:
+                    character.image.clip_draw(int(character.frame) * 32, 32 * 4, 32, 32, character.x, character.y)
+                    character.UD_dir = -1
 
-        elif character.x_velocity < 0:
-            character.image.clip_draw(int(character.frame) * 32, 32, 32, 32, character.x, character.y)
-            character.RL_dir = -1
-            character.UD_dir = 0
-            if character.y_velocity > 0:
-                character.image.clip_draw(int(character.frame) * 32, 0, 32, 32, character.x, character.y)
-                character.UD_dir = 1
-            elif character.y_velocity < 0:
-                character.image.clip_draw(int(character.frame) * 32, 32 * 2, 32, 32, character.x, character.y)
-                character.UD_dir = -1
-
-
-        else:
-            # if boy x_velocity == 0
-            if character.y_velocity > 0:
-                character.image.clip_draw(int(character.frame) * 32, 32 * 7, 32, 32, character.x, character.y)
-                character.UD_dir = 1
-                character.RL_dir = 0
-
-            elif character.y_velocity < 0:
-                character.image.clip_draw(int(character.frame) * 32, 32 * 3, 32, 32, character.x, character.y)
-                character.UD_dir = -1
-                character.RL_dir = 0
-
+            elif character.x_velocity < 0:
+                character.image.clip_draw(int(character.frame) * 32, 32, 32, 32, character.x, character.y)
+                character.RL_dir = -1
+                character.UD_dir = 0
+                if character.y_velocity > 0:
+                    character.image.clip_draw(int(character.frame) * 32, 0, 32, 32, character.x, character.y)
+                    character.UD_dir = 1
+                elif character.y_velocity < 0:
+                    character.image.clip_draw(int(character.frame) * 32, 32 * 2, 32, 32, character.x, character.y)
+                    character.UD_dir = -1
 
             else:
-                # boy is idle
-                if character.UD_dir == 1:
-                    character.image.clip_draw(int(character.frame) * 32, 32 * 15, 32, 32, character.x, character.y)
-                elif character.UD_dir == -1:
-                    character.image.clip_draw(int(character.frame) * 32, 32 * 11, 32, 32, character.x, character.y)
-                elif character.RL_dir == -1:
-                    character.image.clip_draw(int(character.frame) * 32, 32 * 9, 32, 32, character.x, character.y)
-                elif character.RL_dir == 1:
-                    character.image.clip_draw(int(character.frame) * 32, 32 * 13, 32, 32, character.x, character.y)
+                # if boy x_velocity == 0
+                if character.y_velocity > 0:
+                    character.image.clip_draw(int(character.frame) * 32, 32 * 7, 32, 32, character.x, character.y)
+                    character.UD_dir = 1
+                    character.RL_dir = 0
+
+                elif character.y_velocity < 0:
+                    character.image.clip_draw(int(character.frame) * 32, 32 * 3, 32, 32, character.x, character.y)
+                    character.UD_dir = -1
+                    character.RL_dir = 0
+
+                else:
+                    # boy is idle
+                    if character.UD_dir == 1:
+                        character.image.clip_draw(int(character.frame) * 32, 32 * 15, 32, 32, character.x, character.y)
+                    elif character.UD_dir == -1:
+                        character.image.clip_draw(int(character.frame) * 32, 32 * 11, 32, 32, character.x, character.y)
+                    elif character.RL_dir == -1:
+                        character.image.clip_draw(int(character.frame) * 32, 32 * 9, 32, 32, character.x, character.y)
+                    elif character.RL_dir == 1:
+                        character.image.clip_draw(int(character.frame) * 32, 32 * 13, 32, 32, character.x, character.y)
+        else:
+            if character.x_velocity > 0:
+                character.hit_image.clip_draw(int(character.frame) * 32, 32 * 5, 32, 32, character.x, character.y)
+                character.RL_dir = 1
+                character.UD_dir = 0
+                if character.y_velocity > 0:
+                    character.hit_image.clip_draw(int(character.frame) * 32, 32 * 6, 32, 32, character.x, character.y)
+                    character.UD_dir = 1
+                elif character.y_velocity < 0:
+                    character.hit_image.clip_draw(int(character.frame) * 32, 32 * 4, 32, 32, character.x, character.y)
+                    character.UD_dir = -1
+
+            elif character.x_velocity < 0:
+                character.hit_image.clip_draw(int(character.frame) * 32, 32, 32, 32, character.x, character.y)
+                character.RL_dir = -1
+                character.UD_dir = 0
+                if character.y_velocity > 0:
+                    character.hit_image.clip_draw(int(character.frame) * 32, 0, 32, 32, character.x, character.y)
+                    character.UD_dir = 1
+                elif character.y_velocity < 0:
+                    character.hit_image.clip_draw(int(character.frame) * 32, 32 * 2, 32, 32, character.x, character.y)
+                    character.UD_dir = -1
+
+            else:
+                # if boy x_velocity == 0
+                if character.y_velocity > 0:
+                    character.hit_image.clip_draw(int(character.frame) * 32, 32 * 7, 32, 32, character.x, character.y)
+                    character.UD_dir = 1
+                    character.RL_dir = 0
+
+                elif character.y_velocity < 0:
+                    character.hit_image.clip_draw(int(character.frame) * 32, 32 * 3, 32, 32, character.x, character.y)
+                    character.UD_dir = -1
+                    character.RL_dir = 0
+
+                else:
+                    # boy is idle
+                    if character.UD_dir == 1:
+                        character.hit_image.clip_draw(int(character.frame) * 32, 32 * 15, 32, 32, character.x, character.y)
+                    elif character.UD_dir == -1:
+                        character.hit_image.clip_draw(int(character.frame) * 32, 32 * 11, 32, 32, character.x, character.y)
+                    elif character.RL_dir == -1:
+                        character.hit_image.clip_draw(int(character.frame) * 32, 32 * 9, 32, 32, character.x, character.y)
+                    elif character.RL_dir == 1:
+                        character.hit_image.clip_draw(int(character.frame) * 32, 32 * 13, 32, 32, character.x, character.y)
 
 #3. 상태 변환 구현
 next_state_table = {
