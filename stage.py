@@ -1,7 +1,7 @@
 from pico2d import *
 
 import game_framework
-
+import gameclear_state
 
 class Stage:
     def __init__(self):
@@ -11,6 +11,8 @@ class Stage:
 
     def update(self):
         self.timer -= game_framework.frame_time
+        if self.timer <= 0:
+            game_framework.push_state(gameclear_state)
         pass
 
     def draw(self):
