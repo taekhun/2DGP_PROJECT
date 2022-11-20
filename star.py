@@ -22,10 +22,28 @@ class Star:
         # draw_rectangle(*self.get_bb())
 
     def update(self):
-        if self.RL_direction == 1 or self.RL_direction == -1:
+        if self.RL_direction == 1:
             self.x += self.velocity * RUN_SPEED_PPS * game_framework.frame_time
-        elif self.UD_direction == 1 or self.UD_direction == -1:
+            if self.UD_direction == 1:
+                self.velocity = 1 / 2**(1/2)
+                self.y += self.velocity * RUN_SPEED_PPS * game_framework.frame_time
+            elif self.UD_direction == -1:
+                self.velocity = 1 / 2**(1/2)
+                self.y -= self.velocity * RUN_SPEED_PPS * game_framework.frame_time
+
+        elif self.RL_direction == -1:
+            self.x -= self.velocity * RUN_SPEED_PPS * game_framework.frame_time
+            if self.UD_direction == 1:
+                self.velocity = 1 / 2**(1/2)
+                self.y += self.velocity * RUN_SPEED_PPS * game_framework.frame_time
+            elif self.UD_direction == -1:
+                self.velocity = 1 / 2**(1/2)
+                self.y -= self.velocity * RUN_SPEED_PPS * game_framework.frame_time
+
+        elif self.UD_direction == 1:
             self.y += self.velocity * RUN_SPEED_PPS * game_framework.frame_time
+        elif self.UD_direction == -1:
+            self.y -= self.velocity * RUN_SPEED_PPS * game_framework.frame_time
         if self.x < 0 or self.x > 800 or self.y < 0 or self.y > 600:
             game_world.remove_object(self)
         if 0 < self.x < 365:
