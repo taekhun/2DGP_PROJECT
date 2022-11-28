@@ -3,7 +3,7 @@ import game_world
 import game_framework
 
 PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 80.0
+RUN_SPEED_KMPH = 200.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0) / 60.0
 RUN_SPEED_MPS = RUN_SPEED_MPM / 60.0
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -14,7 +14,7 @@ class Star:
 
     def __init__(self, x = 800, y = 300, velocity = 1):
         if Star.image == None:
-            Star.image = load_image('attack.png')
+            Star.image = load_image('./png/attack.png')
         self.x, self.y, self.velocity, self.RL_direction, self.UD_direction = x, y, velocity, 0, 0
 
     def draw(self):
@@ -25,7 +25,6 @@ class Star:
         if self.RL_direction == 1:
             self.x += self.velocity * RUN_SPEED_PPS * game_framework.frame_time
             if self.UD_direction == 1:
-                self.velocity = 1 / 2**(1/2)
                 self.y += self.velocity * RUN_SPEED_PPS * game_framework.frame_time
             elif self.UD_direction == -1:
                 self.velocity = 1 / 2**(1/2)

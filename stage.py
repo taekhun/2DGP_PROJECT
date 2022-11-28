@@ -5,7 +5,7 @@ import gameclear_state
 
 class Stage:
     def __init__(self):
-        self.image = load_image('stage_1.png')
+        self.image = load_image('./png/stage_1.png')
         self.timer = 100.0
         self.font = load_font('ENCR10B.TTF', 16)
 
@@ -21,7 +21,7 @@ class Stage:
         # draw_rectangle(*self.get_bb_2())
         # draw_rectangle(*self.get_bb_3())
         # draw_rectangle(*self.get_bb_4())
-        self.font.draw(100, 550, f'(Time: {self.timer:.2f})', (255, 0, 0))
+        self.font.draw(100, 550, f'Time: {self.timer:.2f}', (255, 0, 0))
 
     def get_bb_1(self):
         return 0, 0, 365 - 2, 30
