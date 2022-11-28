@@ -10,13 +10,14 @@ from stage_2 import Stage_2
 from character import Character
 from enemy import Enemy
 from turtle_attack import EnemyAttack
+from item import Item
 
 import server
 
 character = None
-stage = None
 i_flag = 0
 i_flag_2 = 0
+i_flag_3 = 0
 
 def handle_events():
     events = get_events()
@@ -39,20 +40,22 @@ def enter():
     game_world.add_object(server.character, 1)
     game_world.add_object(stage_2, 2)
 
-
 def add_enemy():
-    global enemy
-    enemy = Enemy()
-    # enemies.append(Enemy())
-    game_world.add_object(enemy, 1)
-    game_world.add_collision_group(server.character, enemy, 'character:enemies')
-    game_world.add_collision_group(None, enemy, 'star:enemies')
+    server.enemy = Enemy()
+    game_world.add_object(server.enemy, 1)
+    game_world.add_collision_group(server.character, server.enemy, 'character:enemies')
+    game_world.add_collision_group(None, server.enemy, 'star:enemies')
 
 def add_enemy_attack():
-    global turtle_attack
-    turtle_attack = EnemyAttack()
-    game_world.add_object(turtle_attack, 1)
-    game_world.add_collision_group(server.character, turtle_attack, 'character:enemies_attack')
+    server.turtle_attack = EnemyAttack()
+    game_world.add_object(server.turtle_attack, 1)
+    game_world.add_collision_group(server.character, server.turtle_attack, 'character:enemies_attack')
+
+def add_item():
+    global item
+    item = Item()
+    game_world.add_object(item, 1)
+    game_world.add_collision_group(server.character, item, 'character:item')
 
 # 종료
 def exit():
@@ -70,6 +73,7 @@ def update():
 
     global i_flag
     global i_flag_2
+    global i_flag_3
 
     i_flag += 1
     if i_flag == 100:
@@ -77,10 +81,14 @@ def update():
         i_flag = 0
 
     i_flag_2 += 1
-    if i_flag_2 == 100:
+    if i_flag_2 == 1000:
         add_enemy_attack()
         i_flag_2 = 0
 
+    i_flag_3 += 1
+    if i_flag_3 == 5000:
+        add_item()
+        i_flag_3 = 0
 
 def draw_world():
     for game_object in game_world.all_objects():

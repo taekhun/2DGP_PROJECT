@@ -23,6 +23,21 @@ def remove_object(o):
             pass
     # raise ValueError('Trying destroy non existing object')
 
+def remove_turtle():
+    for layer in objects:
+        for o in layer:
+            if type(o).__name__ == 'Enemy':
+                layer.remove(o)
+                # 충돌 그룹에서도, 객체를 리스트에서 삭제
+                remove_collision_object(o)
+
+def remove_turtle_attack():
+    for layer in objects:
+        for o in layer:
+            if type(o).__name__ == 'EnemyAttack':
+                layer.remove(o)
+                # 충돌 그룹에서도, 객체를 리스트에서 삭제
+                remove_collision_object(o)
 
 def all_objects():
     for layer in objects:

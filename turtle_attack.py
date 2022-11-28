@@ -35,7 +35,6 @@ class EnemyAttack:
         if self.timer <= 0:
             self.timer = 1.0
             self.dir = random.random() * 2 * math.pi  # 방향을 라디안 값으로 설정
-            print('Wander Success')
             return BehaviorTree.SUCCESS
         return BehaviorTree.SUCCESS
         # else:
@@ -90,10 +89,11 @@ class EnemyAttack:
 
     def draw(self):
         self.image.clip_draw(int(self.frame) * 32, 0, 32, 20, self.x, self.y)
-        draw_rectangle(*self.get_bb())
+        # draw_rectangle(*self.get_bb())
 
     def get_bb(self):
         return self.x - 6, self.y - 9, self.x + 9, self.y + 9
 
     def handle_collision(self, other, group):
-        pass
+        if group == 'character:enemies_attack':
+            game_world.remove_object(self)
