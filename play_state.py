@@ -10,6 +10,8 @@ from stage_2 import Stage_2
 from character import Character
 from enemy import Enemy
 
+import server
+
 character = None
 stage = None
 enemies = []
@@ -23,17 +25,17 @@ def handle_events():
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
             game_framework.push_state(menu_state)
         else:
-            character.handle_event(event)
+            server.character.handle_event(event)
 
 
 # 초기화
 def enter():
-    global character, stage, stage_2
-    character = Character()
+    global stage, stage_2
+    server.character = Character()
     stage = Stage()
     stage_2 = Stage_2()
     game_world.add_object(stage, 0)
-    game_world.add_object(character, 1)
+    game_world.add_object(server.character, 1)
     game_world.add_object(stage_2, 2)
 
 
@@ -42,9 +44,8 @@ def add_enemy():
     enemy = Enemy()
     # enemies.append(Enemy())
     game_world.add_object(enemy, 1)
-    game_world.add_collision_group(character, enemy, 'character:enemies')
-    game_world.add_collision_group(character.fire_star(), enemy, 'star:enemies')
-
+    game_world.add_collision_group(server.character, enemy, 'character:enemies')
+    game_world.add_collision_group(None, enemy, 'star:enemies')
 
 # 종료
 def exit():
@@ -61,6 +62,8 @@ def update():
             b.handle_collision(a, group)
 
     global i_flag
+    global i_flag_2
+
     i_flag += 1
     if i_flag == 100:
         add_enemy()
