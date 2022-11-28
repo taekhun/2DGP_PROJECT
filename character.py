@@ -21,7 +21,7 @@ key_event_table = {
 }
 
 PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 1.0
+RUN_SPEED_KMPH = 10.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0) / 60.0
 RUN_SPEED_MPS = RUN_SPEED_MPM / 60.0
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -59,8 +59,8 @@ class WalkingState:
 
     def do(character):
         character.frame = (character.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        character.x += character.x_velocity * RUN_SPEED_PPS * game_framework.frame_time
-        character.y += character.y_velocity * RUN_SPEED_PPS * game_framework.frame_time
+        character.x += character.x_velocity * game_framework.frame_time
+        character.y += character.y_velocity * game_framework.frame_time
         character.x = clamp(0 + 10, character.x, 800 - 10)
         character.y = clamp(0 + 15, character.y, 600 - 15)
         if 520 < character.y < 600:
@@ -173,12 +173,12 @@ next_state_table = {
 
 class Character:
     def __init__(self):
-        self.x, self.y = 800 // 2, 90
+        self.x, self.y = 800 // 2, 600 // 2
         self.frame = 0
         self.RL_dir, self.UD_dir = 1, 0
         self.x_velocity, self.y_velocity = 0, 0
-        self.image = load_image('character.png')
-        self.hit_image = load_image('hit_character.png')
+        self.image = load_image('./png/character.png')
+        self.hit_image = load_image('./png/hit_character.png')
         self.event_que = []
         self.cur_state = WalkingState
         self.cur_state.enter(self, None)
@@ -203,7 +203,7 @@ class Character:
     def draw(self):
         self.cur_state.draw(self)
         # draw_rectangle(*self.get_bb())
-        self.font.draw(self.x - 50, self.y + 30, f'(HP: {self.HP:.2f})', (255, 0, 0))
+        self.font.draw(self.x - 50, self.y + 30, f'(HP: {self.HP:.1f})', (255, 0, 0))
 
 
     def add_event(self, event):
@@ -220,14 +220,13 @@ class Character:
         star = Star(self.x, self.y, (self.RL_dir ** 2 + self.UD_dir ** 2) ** 1/2)
         star.get_direction(self.RL_dir, self.UD_dir)
         game_world.add_object(star, 1)
-        return star
+        game_world.add_collision_group(star, None, 'star:enemies')
 
     def get_bb(self):
         return self.x - 13, self.y - 16, self.x + 10, self.y + 13
 
     def handle_collision(self, other, group):
         if group == 'character:enemies':
-            self.HP -= 0.01
+            #self.HP -= 0.01
             if self.hit_flag >= 1:
                 self.hit_flag = 0
-            pass
