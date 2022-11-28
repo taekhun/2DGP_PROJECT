@@ -9,13 +9,14 @@ from stage import Stage
 from stage_2 import Stage_2
 from character import Character
 from enemy import Enemy
+from turtle_attack import EnemyAttack
 
 import server
 
 character = None
 stage = None
-enemies = []
 i_flag = 0
+i_flag_2 = 0
 
 def handle_events():
     events = get_events()
@@ -47,6 +48,12 @@ def add_enemy():
     game_world.add_collision_group(server.character, enemy, 'character:enemies')
     game_world.add_collision_group(None, enemy, 'star:enemies')
 
+def add_enemy_attack():
+    global turtle_attack
+    turtle_attack = EnemyAttack()
+    game_world.add_object(turtle_attack, 1)
+    game_world.add_collision_group(server.character, turtle_attack, 'character:enemies_attack')
+
 # 종료
 def exit():
     game_world.clear()
@@ -68,6 +75,11 @@ def update():
     if i_flag == 100:
         add_enemy()
         i_flag = 0
+
+    i_flag_2 += 1
+    if i_flag_2 == 100:
+        add_enemy_attack()
+        i_flag_2 = 0
 
 
 def draw_world():
