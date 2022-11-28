@@ -1,6 +1,7 @@
 from pico2d import *
 import game_world
 import game_framework
+import server
 
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 200.0
@@ -16,7 +17,6 @@ class Star:
         if Star.image == None:
             Star.image = load_image('./png/attack.png')
         self.x, self.y, self.velocity, self.RL_direction, self.UD_direction = x, y, velocity, 0, 0
-
     def draw(self):
         self.image.draw(self.x, self.y)
         # draw_rectangle(*self.get_bb())
@@ -63,3 +63,4 @@ class Star:
     def handle_collision(self, other, group):
         if group == 'star:enemies':
             game_world.remove_object(self)
+            server.character.score += 100

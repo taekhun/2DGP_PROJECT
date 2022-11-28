@@ -6,7 +6,7 @@ import gameclear_state
 class Stage:
     def __init__(self):
         self.image = load_image('./png/stage_1.png')
-        self.timer = 100.0
+        self.timer = 60.0
         self.font = load_font('ENCR10B.TTF', 16)
 
     def update(self):

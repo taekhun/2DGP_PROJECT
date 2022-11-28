@@ -21,7 +21,7 @@ key_event_table = {
 }
 
 PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 10.0
+RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0) / 60.0
 RUN_SPEED_MPS = RUN_SPEED_MPM / 60.0
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -185,6 +185,7 @@ class Character:
         self.font = load_font('ENCR10B.TTF', 16)
         self.HP = 100
         self.hit_flag = 1
+        self.score = 0
 
 
     def update(self):
@@ -203,7 +204,8 @@ class Character:
     def draw(self):
         self.cur_state.draw(self)
         # draw_rectangle(*self.get_bb())
-        self.font.draw(self.x - 50, self.y + 30, f'(HP: {self.HP:.1f})', (255, 0, 0))
+        self.font.draw(self.x - 50, self.y + 30, f'(HP: {int(self.HP):d})', (255, 0, 0))
+        self.font.draw(600, 550, f'Score: {self.score:d}', (255, 255, 0))
 
 
     def add_event(self, event):
@@ -226,6 +228,7 @@ class Character:
 
     def handle_collision(self, other, group):
         if group == 'character:enemies':
+
             self.HP -= 0.01
             if self.hit_flag >= 1:
                 self.hit_flag = 0
