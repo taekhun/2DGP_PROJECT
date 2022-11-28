@@ -215,7 +215,6 @@ class Character:
             self.add_event(key_event)
 
     def fire_star(self):
-        print('FIRE STAR')
         # 발사 시점에서 볼을 생성해줘야 된다.
         star = Star(self.x, self.y, (self.RL_dir ** 2 + self.UD_dir ** 2) ** 1/2)
         star.get_direction(self.RL_dir, self.UD_dir)
@@ -227,6 +226,11 @@ class Character:
 
     def handle_collision(self, other, group):
         if group == 'character:enemies':
-            #self.HP -= 0.01
+            self.HP -= 0.01
+            if self.hit_flag >= 1:
+                self.hit_flag = 0
+
+        if group == 'character:enemies_attack':
+            self.HP -= 10
             if self.hit_flag >= 1:
                 self.hit_flag = 0

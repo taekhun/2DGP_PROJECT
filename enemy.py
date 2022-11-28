@@ -35,7 +35,6 @@ class Enemy:
         if self.timer <= 0:
             self.timer = 1.0
             self.dir = random.random() * 2 * math.pi  # 방향을 라디안 값으로 설정
-            print('Wander Success')
             return BehaviorTree.SUCCESS
         return BehaviorTree.SUCCESS
         # else:
@@ -69,12 +68,9 @@ class Enemy:
 
         chase_wander_node = SelectorNode('Chase or Wander')
         chase_wander_node.add_children(chase_node, wander_node)
-        self.bt = BehaviorTree(chase_wander_node)
+        self.bt = BehaviorTree(wander_node)
 
         pass
-
-    def get_bb(self):
-        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
 
     def update(self):
         # fill here
