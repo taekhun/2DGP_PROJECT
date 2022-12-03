@@ -186,6 +186,10 @@ class Character:
         self.HP = 100
         self.hit_flag = 1
         self.score = 0
+        self.attack_sound = load_wav('./sound/attack.wav')
+        self.attack_sound.set_volume(32)
+        self.hit_sound = load_wav('./sound/hit.wav')
+        self.hit_sound.set_volume(32)
 
 
     def update(self):
@@ -218,6 +222,7 @@ class Character:
 
     def fire_star(self):
         # 발사 시점에서 볼을 생성해줘야 된다.
+        self.attack_sound.play()
         star = Star(self.x, self.y, (self.RL_dir ** 2 + self.UD_dir ** 2) ** 1/2)
         star.get_direction(self.RL_dir, self.UD_dir)
         game_world.add_object(star, 1)
@@ -228,12 +233,13 @@ class Character:
 
     def handle_collision(self, other, group):
         if group == 'character:enemies':
-
+            self.hit_sound.play()
             self.HP -= 0.01
             if self.hit_flag >= 1:
                 self.hit_flag = 0
 
         if group == 'character:enemies_attack':
+            self.hit_sound.play()
             self.HP -= 10
             if self.hit_flag >= 1:
                 self.hit_flag = 0

@@ -4,10 +4,15 @@ import play_state
 import game_world
 
 image = None
+bgm = None
 
 def enter():
     global image
+    global bgm
     image = load_image('./png/title.png')
+    bgm = load_music('./sound/title.mp3')
+    bgm.set_volume(32)
+    bgm.repeat_play()
 
 
 def exit():

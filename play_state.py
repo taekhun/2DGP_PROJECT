@@ -18,6 +18,7 @@ character = None
 i_flag = 0
 i_flag_2 = 0
 i_flag_3 = 0
+bgm = None
 
 def handle_events():
     events = get_events()
@@ -32,13 +33,16 @@ def handle_events():
 
 # 초기화
 def enter():
-    global stage, stage_2
+    global stage, stage_2, bgm
     server.character = Character()
     stage = Stage()
     stage_2 = Stage_2()
     game_world.add_object(stage, 0)
     game_world.add_object(server.character, 1)
     game_world.add_object(stage_2, 2)
+    bgm = load_music('./sound/play.mp3')
+    bgm.set_volume(32)
+    bgm.repeat_play()
 
 def add_enemy():
     server.enemy = Enemy()
@@ -67,7 +71,7 @@ def update():
 
     for a, b, group in game_world.all_collision_pairs():
         if colide(a, b):
-            print('COLLISION by ', group)
+            # print('COLLISION by ', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
 

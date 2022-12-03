@@ -9,6 +9,7 @@ class Stage:
         self.timer = 60.0
         self.font = load_font('ENCR10B.TTF', 16)
 
+
     def update(self):
         self.timer -= game_framework.frame_time
         if self.timer <= 0:

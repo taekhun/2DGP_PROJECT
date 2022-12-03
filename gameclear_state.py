@@ -5,11 +5,14 @@ import play_state
 import title_state
 
 image = None
-
+bgm = None
 def enter():
     global image
+    global bgm
     image = load_image('./png/game_clear.png')
-
+    bgm = load_music('./sound/gameclear.mp3')
+    bgm.set_volume(32)
+    bgm.play(1)
 
 def exit():
     global image

@@ -27,6 +27,8 @@ class Enemy:
         self.timer = 1.0  # change direction every 1 sec when wandering
         self.frame = 0
         self.build_behavior_tree()
+        self.enemy_sound = load_wav('./sound/monster_dead.wav')
+        self.enemy_sound.set_volume(32)
 
     def wander(self):
         # fill here
@@ -126,4 +128,5 @@ class Enemy:
 
     def handle_collision(self, other, group):
         if group == 'star:enemies':
+            self.enemy_sound.play()
             game_world.remove_object(self)

@@ -12,7 +12,8 @@ class Item:
         if Item.image == None:
             Item.image = load_image('./png/special_attack.png')
         self.x, self.y = random.randint(0, 800), random.randint(40, 500)
-
+        self.item_sound = load_wav('./sound/item.wav')
+        self.item_sound.set_volume(32)
     def update(self):
         pass
 
@@ -25,6 +26,7 @@ class Item:
 
     def handle_collision(self, other, group):
         if group == 'character:item':
+            self.item_sound.play()
             game_world.remove_object(self)
             game_world.remove_turtle()
             game_world.remove_turtle_attack()
